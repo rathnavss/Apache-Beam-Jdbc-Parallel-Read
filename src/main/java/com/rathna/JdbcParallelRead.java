@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.devoteam;
+package com.rathna;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -49,9 +49,9 @@ public class JdbcParallelRead {
   public static void main(String[] args) throws PropertyVetoException {
       ComboPooledDataSource dataSource = new ComboPooledDataSource();
       dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
-      dataSource.setJdbcUrl("jdbc:mysql://google/<DATABASE_NAME>?cloudSqlInstance=<INSTANCE_CONNECTION_NAME>" +
+      dataSource.setJdbcUrl("jdbc:mysql://google/primary-sql?cloudSqlInstance=primary-272722" +
               "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false" +
-              "&user=<MYSQL_USER_NAME>&password=<MYSQL_USER_PASSWORD>");
+              "&user=root&password=root");
 
 
       dataSource.setMaxPoolSize(10);
@@ -61,7 +61,7 @@ public class JdbcParallelRead {
 
     Pipeline p = Pipeline.create(
         PipelineOptionsFactory.fromArgs(args).withValidation().create());
-    String tableName = "HelloWorld";
+    String tableName = "testdb";
     int fetchSize = 1000;
 //    Create range index chunks Pcollection
     PCollection<KV<String,Iterable<Integer>>> ranges =
